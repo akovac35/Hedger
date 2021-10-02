@@ -49,7 +49,7 @@ namespace Hedger.Api.Controllers
                 var response = new PrepareOrderPlanResponse();
 
                 // Link exchange order books and exchange balances. Order books without a matching balance are allowed, even though the
-                // following example does not touch this case
+                // following example does not touch this case   
                 var doNotDoThis = MemoryCacheInstance.Get<List<OrderBook>>(ApiConstants.ExchangeOrderBooksCacheKey).Clone();
                 for (int i = 0; i < doNotDoThis.Count; i++)
                 {
