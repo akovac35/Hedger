@@ -60,8 +60,8 @@ To build and push a Docker image to the Docker Hub:
 
 1) `docker build -t akovac35/hedger .`
 2) `docker push akovac35/hedger`
-3) `docker tag akovac35/hedger akovac35/hedger:v1.0.0`
-4) `docker push akovac35/hedger:v1.0.0`
+3) `docker tag akovac35/hedger akovac35/hedger:v1.0.1`
+4) `docker push akovac35/hedger:v1.0.1`
 
 To run from Docker Hub, execute `docker run -d -p 5000:5000 akovac35/hedger` and navigate to `http://localhost:5000/swagger/index.html`.
 
