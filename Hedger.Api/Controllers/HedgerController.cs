@@ -1,5 +1,4 @@
 ﻿using com.github.akovac35.Logging;
-using FastDeepCloner;
 using Hedger.Api.Model;
 using Hedger.Core;
 using Hedger.Core.Model;
@@ -43,27 +42,13 @@ namespace Hedger.Api.Controllers
             try
             {
                 if (request == null) throw new ArgumentNullException(nameof(request));
-                if (request.OrderInstance == null) throw new ArgumentNullException(nameof(request.OrderInstance));
+                if (request.Order == null) throw new ArgumentNullException(nameof(request.Order));
                 if (request.ExchangeBalances == null) throw new ArgumentNullException(nameof(request.ExchangeBalances));
 
                 var response = new PrepareOrderPlanResponse();
+                var cachedOrderBooks = MemoryCacheInstance.Get<List<OrderBook>>(ApiConstants.ExchangeOrderBooksCacheKey);
 
-                // Link exchange order books and exchange balances. Order books without a matching balance are allowed, even though the
-                // following example does not touch this case   
-                var doNotDoThis = MemoryCacheInstance.Get<List<OrderBook>>(ApiConstants.ExchangeOrderBooksCacheKey).Clone();
-                for (int i = 0; i < doNotDoThis.Count; i++)
-                {
-                    if (i % 2 == 0)
-                    {
-                        doNotDoThis[i].CryptoExchangeId = request.ExchangeBalances[0].Id;
-                    }
-                    else
-                    {
-                        doNotDoThis[i].CryptoExchangeId = request.ExchangeBalances[1].Id;
-                    }
-                }
-
-                response.OrderPlanInstance = HedgerServiceInstance.PrepareOrderPlan(request.OrderInstance, doNotDoThis, request.ExchangeBalances);
+                response.OrderPlan = HedgerServiceInstance.PrepareOrderPlan(request.Order, cachedOrderBooks, request.ExchangeBalances);
                 return Ok(response);
             }
             catch (Exception ex)

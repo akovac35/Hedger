@@ -1,0 +1,1 @@
+Type 1 data contains three exchanges with equal order books and different exchange ids.

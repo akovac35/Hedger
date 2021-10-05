@@ -8,9 +8,9 @@ namespace Hedger.Core.Model
     /// </summary>
     public class OrderPlan
     {
-        public List<OrderPlanItem> OrderPlanItems { get; init; } = new();
-        public List<CryptoExchangeBalance> UpdatedBalances { get; init; } = new();
+        public List<OrderPlanItem> OrderPlanItems { get; set; } = new();
+        public List<CryptoExchangeBalance> UpdatedBalances { get; set; } = new();
 
-        public String Id { get; init; } = Guid.NewGuid().ToString();
+        public String Id { get; set; } = Guid.NewGuid().ToString();
     }
 }

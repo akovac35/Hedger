@@ -1,10 +1,10 @@
-﻿using FastDeepCloner;
+﻿using com.github.akovac35.Logging;
+using FastDeepCloner;
 using Hedger.Core.Model;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using System.Collections.Generic;
 using System.Linq;
-using com.github.akovac35.Logging;
 
 namespace Hedger.Core
 {
@@ -29,10 +29,17 @@ namespace Hedger.Core
                 throw new System.ArgumentNullException(nameof(order));
             }
 
+            if (order.Amount < 0)
+            {
+                throw new System.ArgumentException("Invalid amount.", nameof(order));
+            }
+
             if (exchangeOrderBooks is null)
             {
                 throw new System.ArgumentNullException(nameof(exchangeOrderBooks));
             }
+
+            // TODO Exclude invalid exchange order books, e.g. negative amounts
 
             if (exchangeBalances is null)
             {
@@ -59,11 +66,15 @@ namespace Hedger.Core
 
                     if (buyAmount > 0)
                     {
+                        var clonedOrder = asks[i].Ask.Order.Clone();
+                        clonedOrder.Amount = buyAmount;
+
                         remainingAssetAmountToBuy -= buyAmount;
-                        orderPlan.OrderPlanItems.Add(new() { OrderInstance = asks[i].Ask.Order, CryptoExchangeId = asks[i].CryptoExchangeId });
+                        orderPlan.OrderPlanItems.Add(new() { Order = clonedOrder, CryptoExchangeId = asks[i].CryptoExchangeId });
                     }
 
-                    if (exchange?.InEur <= 0 || remainingAssetAmountToBuy <= 0) break;
+                    if (remainingAssetAmountToBuy <= 0) break;
+                    // TODO Consider add a limiter on the number of scanned items based on some amount difference percentage threshold and scan duration or similar
                 }
             }
             else if (order.Type == OrderType.Sell)
@@ -83,11 +94,15 @@ namespace Hedger.Core
 
                     if (sellAmount > 0)
                     {
+                        var clonedOrder = bids[i].Bid.Order.Clone();
+                        clonedOrder.Amount = sellAmount;
+
                         remainingAssetAmountToSell -= sellAmount;
-                        orderPlan.OrderPlanItems.Add(new() { OrderInstance = bids[i].Bid.Order, CryptoExchangeId = bids[i].CryptoExchangeId });
+                        orderPlan.OrderPlanItems.Add(new() { Order = clonedOrder, CryptoExchangeId = bids[i].CryptoExchangeId });
                     }
 
-                    if (exchange?.InBtc <= 0 || remainingAssetAmountToSell <= 0) break;
+                    if (remainingAssetAmountToSell <= 0) break;
+                    // TODO Consider add a limiter on the number of scanned items based on some amount difference percentage threshold and scan duration or similar
                 }
             }
 
@@ -99,57 +114,63 @@ namespace Hedger.Core
 
         public double TryBuyAmount(ref CryptoExchangeBalance? exchange, double remainingAssetAmountToBuy, double availableAssetAmount, double assetPrice)
         {
-            var remainingEur = (exchange?.InEur ?? -1);
+            var remainingEur = (exchange?.EurBalance ?? -1);
             var assetBuyAmount = remainingEur / assetPrice;
 
             if (assetBuyAmount <= 0)
             {
                 return 0;
             }
-            else if (assetBuyAmount > remainingAssetAmountToBuy)
+            else if (assetBuyAmount > remainingAssetAmountToBuy || assetBuyAmount > availableAssetAmount)
             {
-                exchange!.InEur -= remainingAssetAmountToBuy * assetPrice;
-                exchange!.InBtc += remainingAssetAmountToBuy;
-                return remainingAssetAmountToBuy;
-            }
-            else if (assetBuyAmount > availableAssetAmount)
-            {
-                exchange!.InEur -= availableAssetAmount * assetPrice;
-                exchange!.InBtc += availableAssetAmount;
-                return availableAssetAmount;
+                if (remainingAssetAmountToBuy > availableAssetAmount)
+                {
+                    exchange!.EurBalance -= availableAssetAmount * assetPrice;
+                    exchange!.BtcBalance += availableAssetAmount;
+                    return availableAssetAmount;
+                }
+                else
+                {
+                    exchange!.EurBalance -= remainingAssetAmountToBuy * assetPrice;
+                    exchange!.BtcBalance += remainingAssetAmountToBuy;
+                    return remainingAssetAmountToBuy;
+                }
             }
             else
             {
-                exchange!.InEur = 0;
-                exchange!.InBtc += assetBuyAmount;
+                exchange!.EurBalance = 0;
+                exchange!.BtcBalance += assetBuyAmount;
                 return assetBuyAmount;
             }
         }
 
         public double TrySellAmount(ref CryptoExchangeBalance? exchange, double remainingAssetAmountToSell, double availableAssetAmount, double assetPrice)
         {
-            var remainingBtc = (exchange?.InBtc ?? -1);
+            var remainingBtc = (exchange?.BtcBalance ?? -1);
 
             if (remainingBtc <= 0)
             {
                 return 0;
             }
-            else if (remainingBtc > remainingAssetAmountToSell)
+            else if (remainingBtc > remainingAssetAmountToSell || remainingBtc > availableAssetAmount)
             {
-                exchange!.InEur += remainingAssetAmountToSell * assetPrice;
-                exchange!.InBtc -= remainingAssetAmountToSell;
-                return remainingAssetAmountToSell;
-            }
-            else if (remainingBtc > availableAssetAmount)
-            {
-                exchange!.InEur += availableAssetAmount * assetPrice;
-                exchange!.InBtc -= availableAssetAmount;
-                return availableAssetAmount;
+                if (remainingAssetAmountToSell > availableAssetAmount)
+                {
+                    exchange!.EurBalance += availableAssetAmount * assetPrice;
+                    exchange!.BtcBalance -= availableAssetAmount;
+                    return availableAssetAmount;
+                }
+                else
+                {
+                    exchange!.EurBalance += remainingAssetAmountToSell * assetPrice;
+                    exchange!.BtcBalance -= remainingAssetAmountToSell;
+                    return remainingAssetAmountToSell;
+                }
             }
             else
             {
-                exchange!.InEur += remainingBtc * assetPrice;
-                exchange!.InBtc = 0;
+                exchange!.EurBalance += remainingBtc * assetPrice;
+                exchange!.BtcBalance = 0;
                 return remainingBtc;
             }
         }

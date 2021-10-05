@@ -5,12 +5,12 @@ namespace Hedger.Core.Model
 {
     public class OrderBook
     {
-        public List<Bid> Bids { get; init; } = new();
-        public List<Ask> Asks { get; init; } = new();
-        public DateTime AcqTime { get; init; }
+        public List<Bid> Bids { get; set; } = new();
+        public List<Ask> Asks { get; set; } = new();
+        public DateTime AcqTime { get; set; }
 
         public String CryptoExchangeId { get; set; } = Guid.NewGuid().ToString();
 
-        public String Id { get; init; } = Guid.NewGuid().ToString();
+        public String Id { get; set; } = Guid.NewGuid().ToString();
     }
 }

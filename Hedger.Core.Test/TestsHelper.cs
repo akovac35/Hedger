@@ -5,10 +5,11 @@ namespace Hedger.Core.Tests
 {
     public static class TestsHelper
     {
-        public static string GetSmallOrderBooksDataPath()
+        public static string GetType1Data()
         {
-            var filePath = Path.Combine(TestContext.CurrentContext.TestDirectory, "TestFiles/small_order_books_data.json");
+            var filePath = Path.Combine(TestContext.CurrentContext.TestDirectory, "TestFiles/type1_data.json");
             return filePath;
+
         }
     }
 }

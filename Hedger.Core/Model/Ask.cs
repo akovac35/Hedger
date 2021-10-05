@@ -2,6 +2,6 @@
 {
     public class Ask
     {
-        public Order Order { get; init; } = new();
+        public Order Order { get; set; } = new();
     }
 }

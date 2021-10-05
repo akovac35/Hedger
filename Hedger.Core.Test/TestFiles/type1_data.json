@@ -1,0 +1,146 @@
+﻿[
+	{
+		"CryptoExchangeId": "PipiExchange",
+		"AcqTime": "2019-01-29T11:00:00.2518854Z",
+		"Bids": [
+			{
+				"Order": {
+					"Id": null,
+					"Time": "0001-01-01T00:00:00",
+					"Type": "Buy",
+					"Kind": "Limit",
+					"Amount": 0.5,
+					"Price": 2960.64
+				}
+			},
+			{
+				"Order": {
+					"Id": null,
+					"Time": "0001-01-01T00:00:00",
+					"Type": "Buy",
+					"Kind": "Limit",
+					"Amount": 1,
+					"Price": 2960.63
+				}
+			}
+		],
+		"Asks": [
+			{
+				"Order": {
+					"Id": null,
+					"Time": "0001-01-01T00:00:00",
+					"Type": "Sell",
+					"Kind": "Limit",
+					"Amount": 0.5,
+					"Price": 2964.29
+				}
+			},
+			{
+				"Order": {
+					"Id": null,
+					"Time": "0001-01-01T00:00:00",
+					"Type": "Sell",
+					"Kind": "Limit",
+					"Amount": 1,
+					"Price": 2964.3
+				}
+			}
+		]
+	},
+	{
+		"CryptoExchangeId": "MelkijadExchange",
+		"AcqTime": "2019-01-29T11:00:00.2518854Z",
+		"Bids": [
+			{
+				"Order": {
+					"Id": null,
+					"Time": "0001-01-01T00:00:00",
+					"Type": "Buy",
+					"Kind": "Limit",
+					"Amount": 0.5,
+					"Price": 2960.64
+				}
+			},
+			{
+				"Order": {
+					"Id": null,
+					"Time": "0001-01-01T00:00:00",
+					"Type": "Buy",
+					"Kind": "Limit",
+					"Amount": 1,
+					"Price": 2960.63
+				}
+			}
+		],
+		"Asks": [
+			{
+				"Order": {
+					"Id": null,
+					"Time": "0001-01-01T00:00:00",
+					"Type": "Sell",
+					"Kind": "Limit",
+					"Amount": 0.5,
+					"Price": 2964.29
+				}
+			},
+			{
+				"Order": {
+					"Id": null,
+					"Time": "0001-01-01T00:00:00",
+					"Type": "Sell",
+					"Kind": "Limit",
+					"Amount": 1,
+					"Price": 2964.3
+				}
+			}
+		]
+	},
+	{
+		"CryptoExchangeId": "BarnExchange",
+		"AcqTime": "2019-01-29T11:00:00.2518854Z",
+		"Bids": [
+			{
+				"Order": {
+					"Id": null,
+					"Time": "0001-01-01T00:00:00",
+					"Type": "Buy",
+					"Kind": "Limit",
+					"Amount": 0.5,
+					"Price": 2960.64
+				}
+			},
+			{
+				"Order": {
+					"Id": null,
+					"Time": "0001-01-01T00:00:00",
+					"Type": "Buy",
+					"Kind": "Limit",
+					"Amount": 1,
+					"Price": 2960.63
+				}
+			}
+		],
+		"Asks": [
+			{
+				"Order": {
+					"Id": null,
+					"Time": "0001-01-01T00:00:00",
+					"Type": "Sell",
+					"Kind": "Limit",
+					"Amount": 0.5,
+					"Price": 2964.29
+				}
+			},
+			{
+				"Order": {
+					"Id": null,
+					"Time": "0001-01-01T00:00:00",
+					"Type": "Sell",
+					"Kind": "Limit",
+					"Amount": 1,
+					"Price": 2964.3
+				}
+			}
+		]
+	}
+]

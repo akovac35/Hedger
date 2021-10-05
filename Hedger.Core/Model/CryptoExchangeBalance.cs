@@ -4,9 +4,9 @@ namespace Hedger.Core.Model
 {
     public class CryptoExchangeBalance
     {
-        public double InBtc { get; set; }
-        public double InEur { get; set; }
+        public double BtcBalance { get; set; }
+        public double EurBalance { get; set; }
 
-        public String Id { get; init; } = Guid.NewGuid().ToString();
+        public String Id { get; set; } = Guid.NewGuid().ToString();
     }
 }

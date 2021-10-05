@@ -5,7 +5,7 @@ namespace Hedger.Api.Model
 {
     public class PrepareOrderPlanRequest
     {
-        public Order? OrderInstance { get; set; }
+        public Order? Order { get; set; }
         public List<CryptoExchangeBalance>? ExchangeBalances { get; set; }
     }
 }

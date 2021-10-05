@@ -32,7 +32,7 @@ namespace Hedger.Api
                 var orderBooksJsonFilePath = Path.Combine(AppContext.BaseDirectory, ApiConstants.OrderBooksJsonFile);
                 Here(l => l.LogInformation($"Populating cache from {orderBooksJsonFilePath}."));
                 var cache = host.Services.GetRequiredService<IMemoryCache>();
-                cache.Set<List<OrderBook>>(ApiConstants.ExchangeOrderBooksCacheKey, OrderBookHelper.ReadOrderBooks(orderBooksJsonFilePath));
+                cache.Set<List<OrderBook>>(ApiConstants.ExchangeOrderBooksCacheKey, OrderBookHelper.ReadOrderBooksFromJson(orderBooksJsonFilePath));
 
                 host.Run();
             }

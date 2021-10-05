@@ -4,6 +4,6 @@ namespace Hedger.Api.Model
 {
     public class PrepareOrderPlanResponse
     {
-        public OrderPlan? OrderPlanInstance { get; set; }
+        public OrderPlan? OrderPlan { get; set; }
     }
 }

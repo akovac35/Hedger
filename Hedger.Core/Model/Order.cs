@@ -6,10 +6,10 @@ namespace Hedger.Core.Model
     public class Order
     {
         [JsonConverter(typeof(JsonStringEnumConverter))]
-        public OrderType Type { get; init; }
-        public double Amount { get; init; }
-        public double Price { get; init; }
+        public OrderType Type { get; set; }
+        public double Amount { get; set; }
+        public double Price { get; set; }
 
-        public String Id { get; init; } = Guid.NewGuid().ToString();
+        public String Id { get; set; } = Guid.NewGuid().ToString();
     }
 }

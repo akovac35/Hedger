@@ -20,7 +20,7 @@ namespace Hedger.Core.Tests
         [Test]
         public void ReadOrderBooks_Works()
         {
-            var orderBooks = OrderBookHelper.ReadOrderBooks(TestsHelper.GetSmallOrderBooksDataPath());
+            var orderBooks = OrderBookHelper.ReadOrderBooksFromJson(TestsHelper.GetType1Data());
 
             Assert.AreNotEqual(0, orderBooks.Count());
         }
